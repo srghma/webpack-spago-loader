@@ -1,0 +1,28 @@
+{
+  "name": "webpack-spago-loader",
+  "version": "1.0.0",
+  "description": "doesnt run spago, just maps purs to output and output to purs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srghma/webpack-spago-loader.git"
+  },
+  "keywords": [
+    "spago",
+    "purescript",
+    "webpack"
+  ],
+  "author": "srghma@gmail.com",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/srghma/webpack-spago-loader/issues"
+  },
+  "homepage": "https://github.com/srghma/webpack-spago-loader#readme",
+  "dependencies": {
+    "js-string-escape": "^1.0.1",
+    "loader-utils": "^2.0.0",
+    "schema-utils": "^2.6.6"
+  }
+}
