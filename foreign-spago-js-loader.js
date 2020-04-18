@@ -42,9 +42,18 @@ module.exports = async function spagoLoader(source) {
     // TODO: load asyncly
     const externs = require(externsPath)
 
+    // e.g. can return
+    //
+    // src/MyModule.purs
+    // .spago/affjax/v10.0.0/src/Affjax/StatusCode.purs
+    // /FULLPATH/.spago/affjax/v10.0.0/src/Affjax/StatusCode.purs
     const originalPursPath = externs.efSourceSpan.name
 
-    const isNonAppFile = originalPursPath.startsWith('.spago')
+    // console.log('source', source)
+    // console.log('match', match)
+    // console.log('originalPursPath', originalPursPath)
+
+    const isNonAppFile = originalPursPath.includes('.spago/')
 
     if (isNonAppFile) {
       // do nothing
@@ -54,13 +63,11 @@ module.exports = async function spagoLoader(source) {
 
     // else change path of foreign import back to original
 
-    // console.log('source', source)
-    // console.log('match', match)
-    // console.log('originalPursPath', originalPursPath)
-
     const relativeOriginalFFiPath = originalPursPath.replace(/.purs$/, '.js')
 
     const rootContext = this_.rootContext
+
+    // console.log('rootContext', rootContext)
 
     const absoluteOriginalFFiPath = path.join(rootContext, relativeOriginalFFiPath)
 
