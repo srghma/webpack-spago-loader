@@ -24,5 +24,8 @@
     "js-string-escape": "^1.0.1",
     "loader-utils": "^2.0.0",
     "schema-utils": "^2.6.6"
+  },
+  "devDependencies": {
+    "child-process-promise": "^2.2.1"
   }
 }

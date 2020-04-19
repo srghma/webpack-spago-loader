@@ -27,8 +27,6 @@ function matchModule(str) {
 module.exports = async function spagoLoader(source) {
   const this_ = this
 
-  const rootContext = this_.rootContext // project root, because it's wrong to depend on cwd
-
   this_.cacheable && this_.cacheable()
 
   const callback = this_.async();
@@ -42,10 +40,7 @@ module.exports = async function spagoLoader(source) {
 
   // console.log('')
   // console.log('spagoAbsoluteOutputDir', spagoAbsoluteOutputDir)
-
   // console.log('this_', this_)
-  // console.log('this_.resourcePath', this_.resourcePath)
-  // console.log('source', source)
 
   const psModuleName = matchModule(source)
 
@@ -60,7 +55,15 @@ module.exports = async function spagoLoader(source) {
 
     // console.log('psModuleJsSource', psModuleJsSource)
 
-    this_.addDependency(psModuleJsPath)
+    // Clear
+    // if (this_.getDependencies().length !== 1) throw new Error('there are some other dependencies except purs file, cannot clear it: ', this_.getDependencies())
+    // console.log('getDependencies', this_.getDependencies()) // e.g. '/fullpath/Client.purs'
+    // console.log('getContextDependencies', this_.getContextDependencies())
+    // console.log('this_.resourcePath', this_.resourcePath)
+    // console.log('source', source)
+
+    // this_.clearDependencies() // dont watch original purs file, doesnt work
+    this_.addDependency(psModuleJsPath) // watch js file instead
 
     const requireRE = /require\(['"]\.\.\/([\w\.]+)(?:\/index\.js)?['"]\)/g;
     const foreignRE = /require\(['"]\.\/foreign(?:\.js)?['"]\)/g;
