@@ -37,21 +37,13 @@ const runSingletonCompiler = defer(() => {
 })
 
 class SpagoPlugin {
-  constructor(options = {}) {
-    // this.options = {}
-    // this.options = getOptions(options);
-  }
-
   apply(compiler) {
-    // const options = { ...this.options };
-
     const plugin = { name: this.constructor.name };
 
     compiler.hooks.run.tapPromise(plugin, (compilation) => {
       return buildOnlyOnce()
     })
 
-    /* istanbul ignore next */
     compiler.hooks.watchRun.tapPromise(plugin, (compilation) => {
       runSingletonCompiler()
       return Promise.resolve()
