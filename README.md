@@ -10,6 +10,22 @@ How to use:
 const path = require('path');
 const webpack = require('webpack');
 
+// create loader plugin outside of webpack configuration
+// to allow multiple webpack instances to use the same chokidar watcher
+//
+const spagoLoader = require('webpack-spago-loader/plugin')({
+  // compiler: 'purs' // or 'psa' (default)
+  // note that warnings are shown only when file is recompiled, delete output folder to show all warnigns
+  compilerOptions: {
+    censorCodes: [ // ignore these warnings
+      'ImplicitQualifiedImport',
+      'UnusedImport',
+      'ImplicitImport',
+    ].join(','),
+    strict: true // treat warnings as errors
+  }
+})
+
 module.exports = {
   devtool: 'eval-source-map',
 
@@ -51,7 +67,7 @@ module.exports = {
   },
 
   plugins: [
-    new (require('webpack-spago-loader/plugin'))(),
+    new spagoLoader(),
   ]
 };
 ```
