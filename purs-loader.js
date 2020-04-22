@@ -1,8 +1,8 @@
+const fs = require('fs')
+const path = require('path')
 const jsStringEscape = require('js-string-escape')
 const loaderUtils = require('loader-utils')
-const fs = require('fs')
 const validateOptions = require('schema-utils')
-const path = require('path')
 
 const schema = {
   "additionalProperties": false,

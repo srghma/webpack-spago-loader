@@ -1,8 +1,8 @@
-const jsStringEscape = require('js-string-escape')
-const loaderUtils = require('loader-utils')
 const fs = require('fs')
-const validateOptions = require('schema-utils')
 const path = require('path')
+const loaderUtils = require('loader-utils')
+const validateOptions = require('schema-utils')
+const jsStringEscape = require('js-string-escape')
 
 // TLDR: converts `.spago/.../xxx.js` foreign paths back to original based on `externs.json`
 //
