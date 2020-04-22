@@ -13,6 +13,7 @@ const webpack = require('webpack');
 // create loader plugin outside of webpack configuration
 // to allow multiple webpack instances to use the same chokidar watcher
 //
+// all options are passed here
 const spagoLoader = require('webpack-spago-loader/plugin')({
   // compiler: 'purs' // or 'psa' (default)
   // note that warnings are shown only when file is recompiled, delete output folder to show all warnigns
@@ -44,6 +45,8 @@ module.exports = {
 
   module: {
     rules: [
+      // adds two rules for .purs files and .js files inside .spago dir
+      // check source code to see what they do
       ...(require('webpack-spago-loader/rules')()),
 
       // works with images files
@@ -71,7 +74,5 @@ module.exports = {
   ]
 };
 ```
-
-2. run `spago build --watch` in one terminal (or `require('child_process').spawn('spago', ['build', '--watch'])`)
 
 3. run webpack

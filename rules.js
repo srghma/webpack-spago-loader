@@ -18,6 +18,9 @@ module.exports = function createRules(options = {}) {
       ]
     },
     // change `var $foreign = require("./foreign.js");` to `var $foreign = require("src/MyFile/index.js");`
+    //
+    // for example you need when you import static files inside of foreign module
+    // like this `modules.exports = require('./logo.png')`
     {
       test: /\.js$/,
       include: [spagoAbsoluteOutputDir_], // process only files from `spago output`
