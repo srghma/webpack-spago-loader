@@ -64,6 +64,7 @@ module.exports = async function spagoLoader(source) {
 
     // this_.clearDependencies() // dont watch original purs file, doesnt work
     this_.addDependency(psModuleJsPath) // watch js file instead
+    // this_.addContextDependency(options.spagoAbsoluteOutputDir)
 
     const requireRE = /require\(['"]\.\.\/([\w\.]+)(?:\/index\.js)?['"]\)/g;
     const foreignRE = /require\(['"]\.\/foreign(?:\.js)?['"]\)/g;

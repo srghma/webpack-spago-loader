@@ -204,10 +204,17 @@ function mkSpagoPlugin(options = {}) {
         return buildFnOnce()
       })
 
-      compiler.hooks.watchRun.tapPromise(hookOptions, (compilation) => {
-        watchAndBuildFnOnce()
+      let firstBuild = true
+      compiler.hooks.watchRun.tapPromise(hookOptions, async (compilation) => {
+        if (firstBuild) {
+          firstBuild = false
 
-        return Promise.resolve()
+          await buildFnOnce()
+
+          watchAndBuildFnOnce()
+        }
+
+        return
       })
     }
   }
