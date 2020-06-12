@@ -30,7 +30,7 @@ module.exports = async function spagoLoader(source) {
 
   this_.cacheable && this_.cacheable()
 
-  // console.log('this_', this_)
+  console.log('this_', this_)
 
   // console.log('')
   // console.log('this_.resourcePath', this_.resourcePath)

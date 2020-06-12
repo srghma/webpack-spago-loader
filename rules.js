@@ -10,7 +10,7 @@ module.exports = function createRules(options = {}) {
       test: /\.purs$/,
       use: [
         {
-          loader: path.resolve(__dirname, 'loaders', 'purs'),
+          loader: path.resolve(__dirname, 'loaders', 'purs'), // XXX: note, that IF webpack wont find loader - it will throw no error, succeed and output no files
           options: {
             spagoAbsoluteOutputDir: spagoAbsoluteOutputDir_,
           }
@@ -26,7 +26,7 @@ module.exports = function createRules(options = {}) {
       include: [spagoAbsoluteOutputDir_], // process only files from `spago output`
       use: [
         {
-          loader: path.resolve(__dirname, 'loader', 'spago-foreign-js'),
+          loader: path.resolve(__dirname, 'loaders', 'spago-foreign-js'),
         }
       ]
     },
