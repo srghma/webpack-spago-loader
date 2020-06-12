@@ -28,12 +28,12 @@ const watchAndBuildFn = ({ compiler, compilerArgsArray, filesToWatch }) => () =>
       .then(function () {
         runningPromise = null
 
-        console.log('[spago build] done!');
+        console.log('[webpack-spago-loader] done!');
       })
       .catch(function (err) {
         runningPromise = null
 
-        return new Error('[spago build] failed')
+        throw new Error('[webpack-spago-loader] failed')
       })
 
     return runningPromise

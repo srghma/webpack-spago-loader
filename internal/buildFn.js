@@ -5,10 +5,11 @@ const spawn = ({ compiler, compilerArgsArray }) => childProcessPromise.spawn(com
 const buildFn = (options) => () => {
   return spawn(options)
     .then(function () {
-      console.log('[spago build] done!');
+      console.log('[webpack-spago-loader] done!');
     })
     .catch(function (err) {
-      return new Error('[spago build] failed')
+      console.log('[webpack-spago-loader] failed')
+      throw err
     })
 }
 
