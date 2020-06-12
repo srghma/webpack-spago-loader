@@ -22,7 +22,7 @@ function matchModule(str) {
   return matches && matches[1]
 }
 
-// TLDR: converts `.purs` paths to `.spago/.../xxx.js` paths
+// TLDR: this loader converts `.purs` paths to `.spago/.../xxx.js` paths
 
 module.exports = async function spagoLoader(source) {
   const this_ = this

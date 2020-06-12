@@ -1,8 +1,8 @@
-const { getSpagoAbsoluteOutputDir } = require('./utils')
+const { getAbsoluteOutputDirFromSpago } = require('./internal/lib')
 const path = require('path')
 
 module.exports = function createRules(options = {}) {
-  const spagoAbsoluteOutputDir_ = options.spagoAbsoluteOutputDir ? options.spagoAbsoluteOutputDir : getSpagoAbsoluteOutputDir()
+  const spagoAbsoluteOutputDir_ = options.spagoAbsoluteOutputDir ? options.spagoAbsoluteOutputDir : getAbsoluteOutputDirFromSpago() // XXX: should be absolute OR webpack will throw warning
 
   return [
     // your import `src/MyFile.purs`, it returns `output/MyFile/index.js`
@@ -10,7 +10,7 @@ module.exports = function createRules(options = {}) {
       test: /\.purs$/,
       use: [
         {
-          loader: path.resolve(__dirname, 'purs-loader'),
+          loader: path.resolve(__dirname, 'loaders', 'purs'),
           options: {
             spagoAbsoluteOutputDir: spagoAbsoluteOutputDir_,
           }
@@ -26,7 +26,7 @@ module.exports = function createRules(options = {}) {
       include: [spagoAbsoluteOutputDir_], // process only files from `spago output`
       use: [
         {
-          loader: path.resolve(__dirname, 'foreign-spago-js-loader'),
+          loader: path.resolve(__dirname, 'loader', 'spago-foreign-js'),
         }
       ]
     },

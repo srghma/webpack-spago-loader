@@ -4,7 +4,7 @@ const loaderUtils = require('loader-utils')
 const validateOptions = require('schema-utils')
 const jsStringEscape = require('js-string-escape')
 
-// TLDR: converts `.spago/.../xxx.js` foreign paths back to original based on `externs.json`
+// TLDR: this loader converts `.spago/.../xxx.js` foreign paths back to original based on `externs.json`
 //
 // e.g. in file /home/srghma/projects/purescript-webpack-example/output/Example.Body
 //
