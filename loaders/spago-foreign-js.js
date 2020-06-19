@@ -4,7 +4,7 @@ const loaderUtils = require('loader-utils')
 const validateOptions = require('schema-utils')
 const jsStringEscape = require('js-string-escape')
 
-// TLDR: this loader converts `.spago/.../xxx.js` foreign paths back to original based on `externs.json`
+// TLDR: this loader converts `.spago/.../xxx.js` foreign paths back to original based on `externs.json` or `externs.cbor`
 //
 // e.g. in file /home/srghma/projects/purescript-webpack-example/output/Example.Body
 //
@@ -37,17 +37,27 @@ module.exports = async function spagoLoader(source) {
   const foreignRE = /require\(['"]\.\/foreign(?:\.js)?['"]\)/g;
 
   const source_ = source.replace(foreignRE, (match) => {
-    const externsPath = this_.resourcePath.replace(/index.js$/, 'externs.json')
+    const externsJsonPath = this_.resourcePath.replace(/index.js$/, 'externs.json')
+    const externsCborPath = this_.resourcePath.replace(/index.js$/, 'externs.cbor')
 
     // TODO: load asyncly
-    const externs = require(externsPath)
-
     // e.g. can return
     //
     // src/MyModule.purs
     // .spago/affjax/v10.0.0/src/Affjax/StatusCode.purs
     // /FULLPATH/.spago/affjax/v10.0.0/src/Affjax/StatusCode.purs
-    const originalPursPath = externs.efSourceSpan.name
+    let originalPursPath = null
+
+    if (fs.existsSync(externsJsonPath)) {
+      const externs = require(externsJsonPath)
+      originalPursPath = externs.efSourceSpan.name
+    } else if (fs.existsSync(externsCborPath)) {
+      const externs = require('cbor-sync').decode(fs.readFileSync(externsCborPath))
+
+      originalPursPath = externs[externs.length - 1][1] // TODO: may be broken very easily
+    } else {
+      throw new Error(`Neither ${externsJsonPath} nor ${externsCborPath} exists`)
+    }
 
     // console.log('source', source)
     // console.log('match', match)
