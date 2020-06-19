@@ -79,7 +79,9 @@ module.exports = async function spagoLoader(source) {
 
     // console.log('rootContext', rootContext)
 
-    const absoluteOriginalFFiPath = path.join(rootContext, relativeOriginalFFiPath)
+    const absoluteOriginalFFiPath = path.isAbsolute(relativeOriginalFFiPath) ?
+      relativeOriginalFFiPath :
+      path.join(rootContext, relativeOriginalFFiPath)
 
     // console.log('absoluteOriginalFFiPath', absoluteOriginalFFiPath)
 
