@@ -19,7 +19,7 @@ const schema = {
       type: 'string',
     },
     // e.g. [] or ['src/**/*.purs']
-    src: {
+    pursFiles: {
       type: 'array',
       items: { type: 'string' },
     },
@@ -32,13 +32,13 @@ function parseOpitons(options) {
   validateOptions(schema, options, pluginName)
 
   const output = options.output ? options.output : getOutputDirFromSpago()
-  const src = (options.src && options.src.length !== 0) ? options.src : getSourcesFromSpago()
+  const pursFiles = (options.pursFiles && options.pursFiles.length !== 0) ? options.pursFiles : getSourcesFromSpago()
   const compiler = options.compiler ? options.compiler : 'purs'
   const compilerOptions = options.compilerOptions ? options.compilerOptions : {}
 
   ////
 
-  let compilerArgsWithoutSrc = null
+  let compilerArgs = null
   if (compiler.endsWith('purs')) {
     // purs compile --output output <files.purs>
 
@@ -52,7 +52,7 @@ function parseOpitons(options) {
       { ignoreFalse: true }
     )
 
-    compilerArgsWithoutSrc = [].concat(['compile'], compilerArgsArrayDargs)
+    compilerArgs = [].concat(['compile'], compilerArgsArrayDargs)
   } else if (compiler.endsWith('psa')) {
     // psa --filter-codes=CODES --output output <files.purs>
 
@@ -66,18 +66,14 @@ function parseOpitons(options) {
       { ignoreFalse: true }
     )
 
-    compilerArgsWithoutSrc = compilerArgsArrayDargs
+    compilerArgs = compilerArgsArrayDargs
   } else {
     throw new Error(`[${pluginName}] unknown compiler, should be psa or purs ${compiler}`)
   }
 
-  const compilerArgsArray = [].concat(compilerArgsWithoutSrc, src)
+  const pursAndJsFiles = spagoPursSourcesToPursAndJs(pursFiles)
 
-  ////
-
-  const filesToCompile = spagoPursSourcesToPursAndJs(src)
-
-  return { compiler, compilerArgsArray, filesToCompile }
+  return { compiler, compilerArgs, pursFiles, pursAndJsFiles }
 }
 
 module.exports = parseOpitons
