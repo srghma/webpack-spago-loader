@@ -10,37 +10,7 @@ How to use:
 const path = require('path');
 const webpack = require('webpack');
 
-// create loader plugin outside of webpack configuration
-// to allow multiple webpack instances to use the same chokidar watcher
-//
-// all options are passed here
-//
-// plugin supports webpack "build once" and "watch" modes
-//
-// but you can use require('webpack-spago-loader/build-job') instead of plugin if you need to build and wait until it's built
-
-const spagoLoader = require('webpack-spago-loader/plugin')({
-  compiler: 'psa' // or 'purs' (default)
-  // note that warnings are shown only when file is recompiled, delete output folder to show all warnigns
-  compilerOptions: {
-    censorCodes: [ // ignore these warnings, works only for psa
-      'ImplicitQualifiedImport',
-      'UnusedImport',
-      'ImplicitImport',
-    ].join(','),
-    strict: true // treat warnings as errors, works only for psa
-  }
-})
-
 module.exports = {
-  devtool: 'eval-source-map',
-
-  devServer: {
-    contentBase: path.resolve(__dirname, 'dist'),
-    port: 4008,
-    stats: 'errors-only'
-  },
-
   entry: './src/entrypoint.js',
 
   output: {
@@ -73,10 +43,6 @@ module.exports = {
     modules: [ 'node_modules' ],
     extensions: [ '.purs', '.js']
   },
-
-  plugins: [
-    new spagoLoader(),
-  ]
 };
 ```
 
