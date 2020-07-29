@@ -42,12 +42,12 @@ const runBuildFn = ({
   return debouncePromise(run, 300)
 }
 
-module.exports = function runWatcher({ options = {}, onStart, onError, onSuccess }) {
+module.exports = function runWatcher({ options = {}, onStart, onError, onSuccess, additionalWatchGlobs: [] }) {
   const { compiler, compilerArgs, pursFiles, pursAndJsFiles } = parseOptions(options)
 
   console.log(`[webpack-spago-loader] using command for compilation: ${compiler} ${compilerArgs.concat(['<files.purs>']).join(' ')}`)
 
-  const watcher = chokidar.watch(pursAndJsFiles)
+  const watcher = chokidar.watch(additionalWatchGlobs.concat(pursAndJsFiles))
 
   const runBuild = runBuildFn({
     compiler,
