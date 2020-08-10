@@ -9,9 +9,9 @@ const chokidar = require('chokidar')
 const debouncePromise = require('debounce-promise')
 // const throttlePromise = require('throttle-promise')
 
-const buildFn = require('./internal/buildFn')
-const parseOptions = require('./internal/parseOptions')
-const { defer } = require('./internal/lib')
+const buildFn = require('./lib/buildFn')
+const parseOptions = require('./lib/parseOptions')
+const defer = require('./lib/defer')
 
 const watchAndBuildFn = ({ compiler, compilerArgsArray, filesToWatch }) => () => {
   const watcher = chokidar.watch(filesToWatch)

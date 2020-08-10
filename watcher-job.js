@@ -8,9 +8,6 @@ const path = require('path')
 const chokidar = require('chokidar')
 const debouncePromise = require('debounce-promise')
 
-const spawn = require('./internal/spawn')
-const parseOptions = require('./internal/parseOptions')
-
 const runBuildFn = ({
   compiler,
   compilerArgs,
@@ -26,7 +23,7 @@ const runBuildFn = ({
 
     if (runningPromise) { return }
 
-    runningPromise = spawn({ compiler, compilerArgs, pursFiles })
+    runningPromise = require('./lib/spawn')({ compiler, compilerArgs, pursFiles })
       .then(function () {
         runningPromise = null
 
@@ -43,7 +40,7 @@ const runBuildFn = ({
 }
 
 module.exports = function runWatcher({ options = {}, onStart, onError, onSuccess, additionalWatchGlobs = [] }) {
-  const { compiler, compilerArgs, pursFiles, pursAndJsFiles } = parseOptions(options)
+  const { compiler, compilerArgs, pursFiles, pursAndJsFiles } = require('./lib/parseOptions')(options)
 
   console.log(`[webpack-spago-loader] using command for compilation: ${compiler} ${compilerArgs.concat(['<files.purs>']).join(' ')}`)
 

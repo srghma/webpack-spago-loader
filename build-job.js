@@ -1,9 +1,9 @@
 const path = require('path')
 
-const spawn = require('./internal/spawn')
-const parseOptions = require('./internal/parseOptions')
+const spawn = require('./lib/spawn')
+const parseOptions = require('./lib/parseOptions')
 
-function buildJob(options = {}) {
+function buildJob(options) {
   const { compiler, compilerArgs, pursFiles } = parseOptions(options)
 
   return spawn({ compiler, compilerArgs, pursFiles })
