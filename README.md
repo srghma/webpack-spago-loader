@@ -10,6 +10,19 @@ How to use:
 const path = require('path');
 const webpack = require('webpack');
 
+const spagoOptions = {
+  compiler:  'psa',
+  output:    require('webpack-spago-loader/lib/getAbsoluteOutputDirFromSpago')('./spago.dhall'),
+  pursFiles: require('webpack-spago-loader/lib/getSourcesFromSpago')('./spago.dhall'),
+
+  // note that warnings are shown only when file is recompiled, delete output folder to show all warnigns
+  compilerOptions: {
+    censorCodes: ['ImplicitQualifiedImport', 'UnusedImport', 'ImplicitImport'].join(','),
+
+    // strict: true
+  }
+}
+
 module.exports = {
   entry: './src/entrypoint.js',
 
@@ -22,7 +35,7 @@ module.exports = {
     rules: [
       // adds two rules for .purs files and .js files inside .spago dir
       // check source code to see what they do
-      ...(require('webpack-spago-loader/rules')()),
+      ...(require('webpack-spago-loader/rules')({ spagoAbsoluteOutputDir: spagoOptions.output })),
 
       // works with image files
       {
@@ -46,4 +59,12 @@ module.exports = {
 };
 ```
 
-3. run webpack
+3. run webpack with build job (or watch job)
+
+```js
+await require('webpack-spago-loader/build-job')(spagoOptions)
+
+const compiler = webpack(config)
+
+compiler.run((err, stats) => {...})
+```
