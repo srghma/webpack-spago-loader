@@ -1,8 +1,12 @@
 # webpack-spago-loader
 
+### TLDR
+
+The idea is actually very simple - instead of tracking which `.purs` file was imported with webpack machinery AND having memory cache of compiled files (as ethul/purs-loader does) - just friking change import paths from `./Foo/Bar.purs` to `.../output/Foo.Bar/index.js` AND vice versa for `.../output/Foo.Bar/foreign.js` to `.../orig-file.js`
+
 Resolves https://github.com/ethul/purs-loader/issues/144
 
-How to use:
+### How to use:
 
 1. Add minimal `webpack.config.js`
 
